@@ -1,0 +1,79 @@
+<br>
+<div class="container">
+  <button class="btn btn-primary my-2" data-toggle="modal" data-target="#add">Add new Post</button>
+  <br>
+  <table class="table">
+    <tr>
+      <td>userId</td>
+      <td>id</td>
+      <td>title</td>
+      <td>body</td>
+      <td>action</td>
+    </tr>
+    <tr *ngFor="let item of posts">
+      <td>{{item.userId}}</td>
+      <td>{{item.id}}</td>
+      <td>{{item.title}}</td>
+      <td>{{item.body}}</td>
+      <td>
+        <button (click)="deletePost(item.id)" class="btn btn-danger m-2">Delete</button>
+        <button (click)="load(item)" class="btn btn-warning" data-toggle="modal" data-target="#popup">View</button>
+      </td>
+    </tr>
+  </table>
+  <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Post: {{post.title}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{post.body}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Title</label>
+              <input type="text" formControlName="title" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+              <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                <div *ngIf="f.title.errors.required">required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Body</label>
+              <input type="text" formControlName="body" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.body.errors }" />
+              <div *ngIf="submitted && f.body.errors" class="invalid-feedback">
+                <div *ngIf="f.body.errors.required">required</div>
+              </div>
+            </div>
+            <button [disabled]="loading" class="btn btn-primary">
+              <span *ngIf="loading" class="fa fa-circle-o-notch fa-spin"></span>
+              Submit
+          </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
