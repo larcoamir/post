@@ -48,30 +48,32 @@ export class AppComponent {
   get f() { return this.form.controls; }
   onSubmit() {
     this.submitted = true;
-
+    console.log(this.form)
     if (this.form.invalid) {
       return;
     }
 
     this.loading = true;
     this.postService.create(this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    alert("post created");
-                    this.loading = false;
-                    document.getElementById('add')?.click();
-                },
-                error: error => {
-                    console.log(error)
-                    this.loading = false;
-                }
-            });
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          alert("post created");
+          this.loading = false;
+          document.getElementById('add')?.click();
+        },
+        error: error => {
+          console.log(error)
+          this.loading = false;
+        }
+      });
   }
   ngOnInit() {
+    let pattern = '/^[ A-Za-z0-9_@./#&+-]*$/';
     this.form = this.formBuilder.group({
-      title: ['', Validators.required],
-      body: ['', Validators.required]
+      title: ['', [Validators.minLength(20), Validators.required]],
+      body: ['', [Validators.required, Validators.minLength(100)]]
     });
+    console.log(this.form)
   }
 }
