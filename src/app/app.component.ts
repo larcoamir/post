@@ -69,11 +69,9 @@ export class AppComponent {
       });
   }
   ngOnInit() {
-    let pattern = '/^[ A-Za-z0-9_@./#&+-]*$/';
     this.form = this.formBuilder.group({
       title: ['', [Validators.minLength(20), Validators.required]],
       body: ['', [Validators.required, Validators.minLength(100)]]
     });
-    console.log(this.form)
   }
 }
